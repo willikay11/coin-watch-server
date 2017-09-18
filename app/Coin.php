@@ -35,4 +35,12 @@ class Coin extends Model
      * @var array
      */
     protected $guarded = array('id', 'created_at', 'updated_at');
+
+    /*
+     * Relationship between a coin price and a coin
+     */
+    public function coinPrice()
+    {
+        return $this->hasMany(CoinPrice::class);
+    }
 }

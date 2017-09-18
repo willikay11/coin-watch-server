@@ -11,6 +11,12 @@
 |
 */
 
+use App\CoinWatch\Coins\GetCoins;
+
 $router->get('/', function () use ($router) {
     return $router->app->version();
+});
+
+$router->get('/api/coins', function () {
+    return new GetCoins(new \App\CoinWatch\Coins\CoinRepository());
 });

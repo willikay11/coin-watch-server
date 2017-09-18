@@ -34,7 +34,8 @@ class CoinPrice extends Model
         'price_eur',
         'price_gbp',
         'price_rur',
-        'timestamp'
+        'timestamp',
+        'volume_24h'
     ];
 
     /**

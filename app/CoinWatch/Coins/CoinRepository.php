@@ -14,6 +14,14 @@ class CoinRepository
 {
 
     /**
+     * Get all coins
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getAllCoins()
+    {
+        return Coin::all();
+    }
+    /**
      * Get coin by name
      * @param $name
      * @return \Illuminate\Database\Eloquent\Model|null|static

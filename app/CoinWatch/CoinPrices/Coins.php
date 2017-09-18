@@ -27,7 +27,7 @@ class Coins
 
         $response = $client->get('https://www.worldcoinindex.com/apiservice/json?key=eTQZWlGLQq29fv0LAbj2TjB2C');
 
-        $results = (json_decode($response->getBody(), true));
+        $results = json_decode($response->getBody(), true);
 
         $coinRepository = new CoinRepository();
 
@@ -47,11 +47,6 @@ class Coins
                     ];
 
                     $coin = $coinRepository->createCoin($coinData);
-
-//                    $coin = Coin::create([
-//                        'name' => $coin_price['Name'],
-//                        'ticker' => $coin_price['Label']
-//                    ]);
                 }
 
                 $coinPriceData = [
@@ -66,17 +61,6 @@ class Coins
                 ];
 
                 $coinPriceRepository->createCoinPrices($coinPriceData);
-
-//                CoinPrice::create([
-//                    'coin_id' => $coin->id,
-//                    'price_usd' => $coin_price['Price_usd'],
-//                    'price_cny' => $coin_price['Price_cny'],
-//                    'price_eur' => $coin_price['Price_eur'],
-//                    'price_gbp' => $coin_price['Price_gbp'],
-//                    'price_rur' => $coin_price['Price_rur'],
-//                    'volume_24h' => $coin_price['Volume_24h'],
-//                    'timestamp' => Carbon::createFromTimestamp($coin_price['Timestamp']),
-//                ]);
             }
 
         }
