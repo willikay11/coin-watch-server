@@ -1,5 +1,7 @@
 <?php
 
+use \Illuminate\Support\Facades\Facade as Facade;
+
 require_once __DIR__.'/../vendor/autoload.php';
 
 try {
@@ -49,6 +51,11 @@ $app->singleton(
 );
 
 $app->withEloquent();
+
+/**
+ * Set $app as FacadeApplication handler
+ */
+Facade::setFacadeApplication($app);
 
 /*
 |--------------------------------------------------------------------------
