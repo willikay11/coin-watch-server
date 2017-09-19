@@ -8,11 +8,8 @@
  */
 namespace App\CoinWatch\ApiController;
 
-use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Input;
-use League\Fractal\Manager;
-use League\Fractal\Resource\Collection;
 
 trait SortFilterPaginate
 {

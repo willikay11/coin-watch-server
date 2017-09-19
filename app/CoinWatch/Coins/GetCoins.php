@@ -15,7 +15,11 @@ use Illuminate\Contracts\Support\Responsable;
 
 class GetCoins implements Responsable
 {
+    /**
+     * Use sort filter paginate
+     */
     use SortFilterPaginate;
+
     /**
      * @var CoinRepository
      */
@@ -29,7 +33,9 @@ class GetCoins implements Responsable
         $this->coinRepository = $coinRepository;
     }
 
-
+    /**
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
     public function getAllCoins()
     {
         return $this->sortFilterPaginate(new Coin(), [], function ($coin) {
@@ -40,21 +46,6 @@ class GetCoins implements Responsable
                 'volume_24h' => number_format($lastPrice->volume_24h, 4),
             ];
         }, null, null);
-
-//        $coins = $this->coinRepository->getAllCoins();
-//
-//        $coinData = $coins->map(function($coin)
-//        {
-//            $lastPrice = $coin->coinPrice->last();
-//
-//            return [
-//                'name' => $coin->name,
-//                'price_usd' => number_format($lastPrice->price_usd, 2),
-//                'volume_24h' => number_format($lastPrice->volume_24h, 4),
-//            ];
-//        });
-//
-//        return $coinData;
     }
 
     /**
