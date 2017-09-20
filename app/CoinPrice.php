@@ -28,6 +28,7 @@ class CoinPrice extends Model
      */
     protected $fillable = [
         'coin_id',
+        'synchronization_id',
         'name',
         'price_usd',
         'price_cny' ,
@@ -43,4 +44,12 @@ class CoinPrice extends Model
      * @var array
      */
     protected $guarded = array('id', 'created_at', 'updated_at');
+
+    /**
+     * Relationship between coin and a coin price
+     */
+    public function coin()
+    {
+        return $this->belongsTo(Coin::class);
+    }
 }

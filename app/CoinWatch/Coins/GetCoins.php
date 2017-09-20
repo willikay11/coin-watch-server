@@ -11,6 +11,7 @@ namespace App\CoinWatch\Coins;
 use App\Coin;
 use App\CoinPrice;
 use App\CoinWatch\ApiController\SortFilterPaginate;
+use App\Synchronization;
 use Illuminate\Contracts\Support\Responsable;
 
 class GetCoins implements Responsable
@@ -38,14 +39,21 @@ class GetCoins implements Responsable
      */
     public function getAllCoins()
     {
-        return $this->sortFilterPaginate(new Coin(), [], function ($coin) {
-            $lastPrice = $coin->coinPrice->last();
+        $sync = Synchronization::latest()->first();
+
+        $filter = [
+            'column' => 'synchronization_id',
+            'sign' => '=',
+            'value' => $sync->id
+        ];
+
+        return $this->sortFilterPaginate(new CoinPrice(), [$filter], function ($coinPrice) {
             return [
-                'name' => $coin->name,
-                'price_usd' => number_format($lastPrice->price_usd, 2),
-                'volume_24h' => number_format($lastPrice->volume_24h, 4),
+                'name' => $coinPrice->coin->name,
+                'price_usd' => number_format($coinPrice->price_usd, 2),
+                'volume_24h' => number_format($coinPrice->volume_24h, 4),
             ];
-        }, null, null);
+        }, null, null, 'price_usd');
     }
 
     /**

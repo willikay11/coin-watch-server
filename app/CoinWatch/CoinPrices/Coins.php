@@ -10,6 +10,7 @@ namespace App\CoinWatch\CoinPrices;
 
 use App\Coin;
 use App\CoinPrice;
+use App\CoinWatch\Synchronization\SynchronizationRepository;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
@@ -33,6 +34,12 @@ class Coins
 
         $coinPriceRepository = new CoinPriceRepository();
 
+        $syncRepository = new SynchronizationRepository();
+
+        $syncTime = Carbon::now();
+
+        $sync = $syncRepository->store($syncTime);
+
         foreach ($results as $result)
         {
             foreach ($result as $coin_price)
@@ -51,6 +58,7 @@ class Coins
 
                 $coinPriceData = [
                     'coin_id' => $coin->id,
+                    'synchronization_id' => $sync->id,
                     'price_usd' => $coin_price['Price_usd'],
                     'price_cny' => $coin_price['Price_cny'],
                     'price_eur' => $coin_price['Price_eur'],

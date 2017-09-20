@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: mac-intern
- * Date: 9/18/17
- * Time: 8:35 AM
+ * Date: 9/20/17
+ * Time: 8:21 AM
  */
 
 namespace App;
@@ -11,15 +11,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Coin extends Model
+class Synchronization extends Model
 {
-
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'coins';
+    protected $table = 'synchronizations';
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +26,7 @@ class Coin extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'ticker',
+        'time',
     ];
 
     /**
@@ -35,13 +34,4 @@ class Coin extends Model
      * @var array
      */
     protected $guarded = array('id', 'created_at', 'updated_at');
-
-    /*
-     * Relationship between a coin price and a coin
-     */
-    public function coinPrice()
-    {
-        return $this->hasMany(CoinPrice::class, 'coin_id');
-    }
-
 }
