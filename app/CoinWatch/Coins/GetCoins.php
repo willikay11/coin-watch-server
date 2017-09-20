@@ -50,6 +50,7 @@ class GetCoins implements Responsable
         return $this->sortFilterPaginate(new CoinPrice(), [$filter], function ($coinPrice) {
             return [
                 'name' => $coinPrice->coin->name,
+                'ticker' => explode('/', $coinPrice->coin->ticker)[0],
                 'price_usd' => number_format($coinPrice->price_usd, 2),
                 'volume_24h' => number_format($coinPrice->volume_24h, 4),
             ];
