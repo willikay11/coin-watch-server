@@ -24,4 +24,12 @@ class SynchronizationRepository
             'time' => $timestamp
         ]);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Model|null|static[]
+     */
+    public function getLastSynchronizationTime()
+    {
+        return Synchronization::latest()->first();
+    }
 }

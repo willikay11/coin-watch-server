@@ -38,6 +38,6 @@ class CoinRepository
      */
     public function createCoin(array $input)
     {
-        return Coin::create([$input]);
+        return Coin::create($input);
     }
 }

@@ -53,6 +53,9 @@ class GetCoins implements Responsable
                 'ticker' => explode('/', $coinPrice->coin->ticker)[0],
                 'price_usd' => number_format($coinPrice->price_usd, 2),
                 'volume_24h' => number_format($coinPrice->volume_24h, 4),
+                'price_change' => number_format($coinPrice->newCoinPriceChange->price_change, 2),
+                'percentage_change' => $coinPrice->newCoinPriceChange->percentage_change,
+                'change' => $coinPrice->newCoinPriceChange->change,
             ];
         }, null, null, 'price_usd');
     }

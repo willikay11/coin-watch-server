@@ -52,4 +52,12 @@ class CoinPrice extends Model
     {
         return $this->belongsTo(Coin::class);
     }
+
+    /**
+     * Relationship between a coin price change and a coin price
+     */
+    public function newCoinPriceChange()
+    {
+        return $this->hasOne(CoinPriceChange::class, 'coin_price_id');
+    }
 }
