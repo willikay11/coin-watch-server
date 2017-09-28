@@ -20,3 +20,8 @@ $router->get('/', function () use ($router) {
 $router->get('/api/coins', function () {
     return new GetCoins(new \App\CoinWatch\Coins\CoinRepository());
 });
+
+$router->get('/api/coin/{id}', function ()
+{
+    return new \App\CoinWatch\Coins\GetIndividualCoin();
+});
