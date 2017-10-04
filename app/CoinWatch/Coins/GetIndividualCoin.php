@@ -31,7 +31,6 @@ class GetIndividualCoin implements Responsable
            'min' => $coinPrice->min('price_usd'),
            'max' => $coinPrice->max('price_usd'),
        ];
-
     }
 
     /**
