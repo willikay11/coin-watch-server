@@ -21,7 +21,7 @@ $router->get('/api/coins', function () {
     return new GetCoins(new \App\CoinWatch\Coins\CoinRepository());
 });
 
-$router->get('/api/coin/{id}', function ()
+$router->get('/api/coin/{id}', function ($id)
 {
-    return new \App\CoinWatch\Coins\GetIndividualCoin();
+    return new \App\CoinWatch\Coins\GetIndividualCoin($id);
 });

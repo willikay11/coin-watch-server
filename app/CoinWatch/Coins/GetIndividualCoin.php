@@ -15,12 +15,16 @@ use Illuminate\Contracts\Support\Responsable;
 
 class GetIndividualCoin implements Responsable
 {
+    protected $id;
+
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
 
     public function getCoin()
     {
-       $id = 50;
-
-       $coinPrice = CoinPrice::where('coin_id', $id)->where('timestamp', '>=', Carbon::now()->subDay(1));
+       $coinPrice = CoinPrice::where('coin_id', $this->id)->where('timestamp', '>=', Carbon::now()->subDay(1));
 
        return [
            'last' => $coinPrice->orderBy('created_at', 'desc')->first()->price_usd,
