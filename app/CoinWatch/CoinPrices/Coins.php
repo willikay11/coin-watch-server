@@ -21,7 +21,6 @@ use Illuminate\Database\Eloquent\Collection;
 
 class Coins
 {
-
     /**
      * Get coins from World Coin Index API
      */
