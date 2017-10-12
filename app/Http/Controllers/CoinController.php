@@ -9,14 +9,18 @@
 namespace App\Http\Controllers;
 
 
+use App\Coin;
+use App\CoinPrice;
+use App\CoinWatch\ApiController\SortFilterPaginate;
 use App\CoinWatch\Coins\CoinRepository;
 use App\CoinWatch\MyCoins\MyCoinsRepository;
-use Illuminate\Contracts\Support\Responsable;
+use App\Synchronization;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 
 class CoinController extends Controller
 {
+
+    use SortFilterPaginate;
 
     /**
      * @var CoinRepository
@@ -57,6 +61,9 @@ class CoinController extends Controller
         return self::toResponse(null, $response);
     }
 
+    /*
+     * Store selected coins
+     */
     public function storeSelectedCoins(Request $request)
     {
         $selectedCoins = $request->get('coins');
@@ -78,6 +85,70 @@ class CoinController extends Controller
         ];
 
         return self::toResponse(null, $response);
+    }
+
+    /*
+     * Get a users Coins
+     */
+    public function getMyCoins($userId)
+    {
+        $myCoins = $this->myCoinsRepository->getMyCoinByUserId($userId)->pluck('coin_id');
+
+        $sync = Synchronization::latest()->first();
+
+        $filter = [
+            'column' => 'synchronization_id',
+            'sign' => '=',
+            'value' => $sync->id
+        ];
+
+        return $this->sortFilterPaginate(new CoinPrice(), [$filter], function ($coinPrice) {
+            return [
+                'id' => $coinPrice->coin->id,
+                'name' => $coinPrice->coin->name,
+                'ticker' => explode('/', $coinPrice->coin->ticker)[0],
+                'price_usd' => number_format($coinPrice->price_usd, 2),
+                'volume_24h' => number_format($coinPrice->volume_24h, 4),
+                'price_change' => number_format($coinPrice->newCoinPriceChange->price_change, 2),
+                'percentage_change' => number_format($coinPrice->newCoinPriceChange->percentage_change, 2),
+                'change' => $coinPrice->newCoinPriceChange->change,
+            ];
+        }, function ($coinPrice) use ($myCoins)
+        {
+            return $coinPrice->whereIN('coin_id', $myCoins);
+
+        }, null, 'price_usd');
+    }
+
+    /*
+     * Search for a coin
+     */
+    public function search($query = null)
+    {
+        if(is_null($query))
+        {
+            $coins = $this->coinRepository->getAllCoins();
+        }
+        else
+        {
+            $coins = Coin::search($query)->get();
+        }
+
+        $coins = $coins->map(function($coin)
+        {
+            return[
+                'id' => $coin->id,
+                'name' => $coin->name
+            ];
+        });
+
+        $response = [
+            'success' => true,
+            'data' => $coins
+        ];
+
+        return self::toResponse(null, $response);
+
     }
     /**
      * @param null $request

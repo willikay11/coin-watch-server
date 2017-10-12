@@ -37,3 +37,11 @@ $router->get('/api/getCoinsForSelect', [
 $router->post('/api/store/selectedCoins', [
     'uses' => 'CoinController@storeSelectedCoins'
 ]);
+
+$router->get('/api/getMyCoins/{userId}', [
+    'uses' => 'CoinController@getMyCoins'
+]);
+
+$router->get('/api/search/coin[/{query}]', [
+    'uses' => 'CoinController@search'
+]);
