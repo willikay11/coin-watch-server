@@ -25,3 +25,15 @@ $router->get('/api/coin/{id}', function ($id)
 {
     return new \App\CoinWatch\Coins\GetIndividualCoin($id);
 });
+
+$router->get('/api/checkLogin/{email}', [
+    'uses' => 'UserController@checkIfUserExists'
+]);
+
+$router->get('/api/getCoinsForSelect', [
+    'uses' => 'CoinController@getAllCoinsForSelect'
+]);
+
+$router->post('/api/store/selectedCoins', [
+    'uses' => 'CoinController@storeSelectedCoins'
+]);
