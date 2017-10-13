@@ -73,12 +73,14 @@ class CoinController extends Controller
     {
         $selectedCoins = $request->get('coins');
 
-        $userId = $request->get('userId');
+        $uid = $request->get('uid');
 
+        $user = $this->userRepository->getUserByUid($uid);
+        
         foreach ($selectedCoins as $selectedCoin)
         {
             $input = [
-                'user_id' => $userId,
+                'user_id' => $user->id,
                 'coin_id' => $selectedCoin
             ];
 
