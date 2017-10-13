@@ -30,6 +30,14 @@ class UserRepository
     }
 
     /*
+     * Get User by Uid
+     */
+    public function getUserByUid($uid)
+    {
+        return User::where('uid', $uid)->first();
+    }
+
+    /*
      * Save a new user
      */
     public function createUser($input)

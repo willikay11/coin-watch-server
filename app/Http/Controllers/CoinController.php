@@ -14,6 +14,7 @@ use App\CoinPrice;
 use App\CoinWatch\ApiController\SortFilterPaginate;
 use App\CoinWatch\Coins\CoinRepository;
 use App\CoinWatch\MyCoins\MyCoinsRepository;
+use App\CoinWatch\User\UserRepository;
 use App\Synchronization;
 use Illuminate\Http\Request;
 
@@ -27,15 +28,19 @@ class CoinController extends Controller
      */
     protected $coinRepository;
     protected $myCoinsRepository;
+    protected $userRepository;
 
     /**
      * CoinController constructor.
      * @param CoinRepository $coinRepository
      */
-    public function __construct(CoinRepository $coinRepository, MyCoinsRepository $myCoinsRepository)
+    public function __construct(CoinRepository $coinRepository,
+                                MyCoinsRepository $myCoinsRepository,
+                                UserRepository $userRepository)
     {
         $this->coinRepository = $coinRepository;
         $this->myCoinsRepository = $myCoinsRepository;
+        $this->userRepository = $userRepository;
     }
 
     /*
@@ -90,9 +95,11 @@ class CoinController extends Controller
     /*
      * Get a users Coins
      */
-    public function getMyCoins($userId)
+    public function getMyCoins($uid)
     {
-        $myCoins = $this->myCoinsRepository->getMyCoinByUserId($userId)->pluck('coin_id');
+        $user = $this->userRepository->getUserByUid($uid);
+
+        $myCoins = $this->myCoinsRepository->getMyCoinByUserId($user->id)->pluck('coin_id');
 
         $sync = Synchronization::latest()->first();
 

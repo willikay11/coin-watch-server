@@ -35,7 +35,7 @@ class UserController extends Controller
      * @param $email
      * @return $this|\Illuminate\Database\Eloquent\Model|null|static
      */
-    public function checkIfUserExists($email)
+    public function checkIfUserExists($email, $uid)
     {
         $user = $this->userRepository->getUserByEmail($email);
 
@@ -51,7 +51,8 @@ class UserController extends Controller
         }
         else {
             $input = [
-                'email' => $email
+                'email' => $email,
+                'uid' => $uid
             ];
 
             $user = $this->userRepository->createUser($input);
